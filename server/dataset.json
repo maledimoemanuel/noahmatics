@@ -1,0 +1,47 @@
+[
+  {
+    "prompt": "What is the Pythagorean Theorem?",
+    "response": "The Pythagorean Theorem is a fundamental principle in geometry. It states that in a right-angled triangle, the square of the hypotenuse (the side opposite the right angle) equals the sum of the squares of the other two sides. In symbols: c² = a² + b². You can use this to compute any side of a right triangle if you know the other two.",
+    "katex": "c^2 = a^2 + b^2",
+    "animation": {
+      "type": "draw_right_triangle",
+      "params": { "a": 120, "b": 90, "c": 150 }
+    }
+  },
+  {
+    "prompt": "How do you solve a quadratic equation?",
+    "response": "To solve ax² + bx + c = 0, apply the quadratic formula: x = (−b ± √(b² − 4ac))⁄(2a). First compute the discriminant D = b² − 4ac. If D > 0 there are two real roots, D = 0 gives one real root, and D < 0 gives two complex roots. Substitute a, b, c into the formula and simplify.",
+    "katex": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+    "animation": {
+      "type": "show_quadratic_formula",
+      "params": { "a": 1, "b": -3, "c": 2 }
+    }
+  },
+  {
+    "prompt": "Explain what a function is in mathematics.",
+    "response": "A function is a relation that assigns exactly one output value to each input value. Denoted f(x), it’s like a machine: you feed in x, and it returns f(x). For example, f(x)=2x+3 doubles x then adds 3. Functions let us model real-world relationships, like distance over time or cost based on quantity.",
+    "katex": "f(x) = 2x + 3",
+    "animation": {
+      "type": "draw_linear_function",
+      "params": { "slope": 2, "intercept": 3 }
+    }
+  },
+  {
+    "prompt": "What is the difference between permutations and combinations?",
+    "response": "Permutations count arrangements **where order matters**, e.g. seating 3 people in 3 chairs: P(n,r) = n!/(n−r)!. Combinations count selections **where order doesn’t matter**, e.g. choosing 3 fruits from 5: C(n,r)=n!/(r!(n−r)!). Always ask: does the order change the outcome?",
+    "katex": "P(n,r)=\\frac{n!}{(n-r)!}, \\quad C(n,r)=\\frac{n!}{r!(n-r)!}",
+    "animation": {
+      "type": "show_permutations_combinations",
+      "params": { "n": 5, "r": 3 }
+    }
+  },
+  {
+    "prompt": "How would you explain derivatives to a beginner?",
+    "response": "A derivative measures how a function’s output changes as its input changes—its instantaneous rate of change. If s(t) is position over time, then s′(t) gives velocity. Geometrically, the derivative at x is the slope of the tangent line to the curve y=f(x) at that point.",
+    "katex": "f'(x) = \\lim_{h\\to0} \\frac{f(x+h)-f(x)}{h}",
+    "animation": {
+      "type": "draw_tangent_line",
+      "params": { "point": [50, 100] }
+    }
+  }
+]

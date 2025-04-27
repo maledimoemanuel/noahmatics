@@ -1,62 +1,21 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
-import random
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 app = Flask(__name__)
-CORS(app)
 
-@app.route('/api/message', methods=['POST'])
-def handle_message():
-    data = request.get_json()
-    user_message = data.get('message', '').lower()
+# Load your model
+MODEL_PATH = "./fine-tuned-model"
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+model     = AutoModelForSeq2SeqLM.from_pretrained(MODEL_PATH)
 
-    # Enhanced responses with more animations
-    responses = [
-        {
-            "reply": "Pi (π) is the ratio of a circle's circumference to its diameter. It's approximately 3.14159 and appears in many mathematical formulas.",
-            "katex": "\\pi = \\frac{C}{d} \\approx 3.14159",
-            "animation": {
-                "type": "draw_circle",
-                "params": {
-                    "radius": 80,
-                    "strokeColor": "#00FFFF",
-                    "strokeWidth": 4
-                }
-            }
-        },
-        {
-            "reply": "The Pythagorean theorem states that in a right triangle: a² + b² = c² where c is the hypotenuse.",
-            "katex": "a^2 + b^2 = c^2",
-            "animation": {
-                "type": "draw_triangle",
-                "params": {
-                    "strokeColor": "#FF00FF",
-                    "strokeWidth": 3
-                }
-            }
-        },
-        {
-            "reply": "Euler's identity combines five fundamental mathematical constants: e^{iπ} + 1 = 0",
-            "katex": "e^{i\\pi} + 1 = 0",
-            "animation": {
-                "type": "draw_circle",
-                "params": {
-                    "radius": 70,
-                    "strokeColor": "#FF5500",
-                    "strokeWidth": 5
-                }
-            }
-        }
-    ]
+@app.route("/chat", methods=["POST"])
+def chat():
+    user_msg = request.json.get("message", "")
+    # Tokenize & generate
+    inputs = tokenizer(user_msg, return_tensors="pt")
+    outputs = model.generate(**inputs, max_new_tokens=128)
+    reply = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return jsonify({"response": reply})
 
-    if any(keyword in user_message for keyword in ['math', 'pi', 'circle', 'triangle', 'pythagoras', 'euler']):
-        return jsonify(random.choice(responses))
-    
-    return jsonify({
-        "reply": "I can explain mathematical concepts. Try asking about Pi, triangles, or Euler's identity!",
-        "katex": None,
-        "animation": None
-    })
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

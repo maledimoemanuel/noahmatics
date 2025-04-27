@@ -251,7 +251,7 @@ export default function BotAvatar() {
       {/* Main content */}
       <div className="relative z-10 w-full max-w-4xl px-4 flex flex-col items-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-          MathBot AI
+          Noahmatics AI
         </h1>
 
         {/* Bot/animation container */}
