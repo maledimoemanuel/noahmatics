@@ -133,21 +133,46 @@ export default function BotAvatar() {
     });
   };
 
+  async function sendMessageToBot(message) {
+    const response = await fetch("http://localhost:5000/api/message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
+  
+
   const processInput = async (input) => {
     try {
-      const response = await fetch('http://localhost:5000/api/message', {
+      const apiUrl = process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:5000/api/message' 
+        : '/api/message'; // For production, use relative path or environment variable
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({ message: input }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       respond(data.reply, data.katex, data.animation);
+      console.log(data);
     } catch (error) {
-      console.error("Server error:", error);
-      respond("Sorry, something went wrong.");
+      console.error("Error:", error);
+      respond("Sorry, I'm having trouble connecting to the server. Please try again later.");
     }
-  };
+};
 
   const respond = (text, katex = null, animation = null) => {
     setIsTalking(true);
@@ -251,7 +276,7 @@ export default function BotAvatar() {
       {/* Main content */}
       <div className="relative z-10 w-full max-w-4xl px-4 flex flex-col items-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-          Noahmatics AI
+          Noahmatics
         </h1>
 
         {/* Bot/animation container */}
